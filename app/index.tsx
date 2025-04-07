@@ -1,37 +1,35 @@
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Index() {
-  const [login, setLogin] = useState("")
-  const [password, setPassword] = useState("")
 
   return (
-    <View style={styles.container}>
-      <Text>Войдите в систему</Text>
+    <View style={{ height: "100%" }}>
+      <LinearGradient
+        colors={['#ced1cd', '#9b9d9b', '#696a68', '#363636']}
+        style={styles.container}
+        start={{ x: 0, y: 0.1 }}
+        end={{ x: 0, y: 0.5 }}
+      >
+        <View style={styles.form}>
 
-      <TextInput 
-        style={styles.input}
-        value={login}
-        onChangeText={setLogin}
-        placeholder="Логин"
-      />
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Пароль"
-      />
-
+        </View>
+      </LinearGradient>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12,
-    gap: 8,
-    backgroundColor: "#ced1cd",
     height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  form: {
+    backgroundColor: "black"
+
   },
   input: {
     borderWidth: 3,

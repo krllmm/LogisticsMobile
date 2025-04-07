@@ -13,13 +13,13 @@ export default function RootLayout() {
           },
           headerShadowVisible: false,
           headerTintColor: '#363636',
-          // headerTitleStyle: {
-          //   fontWeight: 'bold',
-          // },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
         }}>
          <Stack.Screen name="index"/>
       </Stack>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
     </>
   )
 }
