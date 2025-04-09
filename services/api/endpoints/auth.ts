@@ -11,11 +11,11 @@ type userDataProps = {
 
 export const authService = {
   async login(credentials: CredentialsProps) {
-    return apiClient.post('/auth/login', credentials);
+    return apiClient.post('/login', credentials);
   },
 
   async register(userData: userDataProps) {
-    return apiClient.post('/auth/register', userData);
+    return apiClient.post('/register', userData);
   },
 
   async getCurrentUser() {

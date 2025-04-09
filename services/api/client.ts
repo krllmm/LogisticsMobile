@@ -7,7 +7,7 @@ export const apiClient = {
     // Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
     
     try {
-      const response = await fetch(url, {
+      const response = await fetch(url.toString(), {
         method: 'GET',
         headers: API_CONFIG.HEADERS,
       });

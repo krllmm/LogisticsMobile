@@ -20,7 +20,7 @@ export default function Index() {
         <View style={styles.form}>
           <Login />
         </View>
-        <Image
+        {/* <Image
           style={{
             flex: 1,
             width: '100%',
@@ -31,7 +31,7 @@ export default function Index() {
           placeholder={{ blurhash }}
           contentFit="cover"
           transition={500}
-        />
+        /> */}
       </LinearGradient>
 
     </View>

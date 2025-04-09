@@ -7,8 +7,8 @@ export const Login = () => {
   const [password, setPassword] = useState("")
 
   const handleButtonPress = () =>{
-    authService.login({login, password})
-    alert(login + " --- " + password)
+    authService.login({login: login, password: password})
+    // alert(login + " --- " + password)
   }
 
   return (
