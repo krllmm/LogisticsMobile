@@ -17,7 +17,8 @@ export default function RootLayout() {
             fontWeight: 'bold',
           },
         }}>
-         <Stack.Screen name="index"/>
+         <Stack.Screen name="index" />
+         <Stack.Screen name="(tabs)" options={{headerShown: false}} />
       </Stack>
       <StatusBar style="dark" />
     </>

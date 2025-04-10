@@ -1,4 +1,5 @@
 import { authService } from "@/services/api/endpoints/auth";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { TextInput, View, StyleSheet, Text, Pressable } from "react-native";
 
@@ -7,7 +8,8 @@ export const Login = () => {
   const [password, setPassword] = useState("")
 
   const handleButtonPress = () =>{
-    authService.login({login: login, password: password})
+    // authService.login({login: login, password: password})
+    router.navigate("/(tabs)")
     // alert(login + " --- " + password)
   }
 
