@@ -1,19 +1,29 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function RootLayout() {
   return (
     <>
-      <Tabs>
+      <Tabs screenOptions={{headerShown: false}}>
         <Tabs.Screen 
-          name="delivery" 
+          name="index" 
           options={{
-            title: 'Home',
-            tabBarIcon: () => (<FontAwesome name="address-book" size={24} color="black" />),
+            tabBarLabel: "Перевозки",
+            tabBarIcon: () => (<MaterialCommunityIcons name="truck-delivery" size={24} color="black" />),
           }}/>
-        <Tabs.Screen name="chat" />
-        <Tabs.Screen name="profile" />
+        <Tabs.Screen 
+          name="chat" 
+          options={{
+            tabBarLabel: "Чат",
+            tabBarIcon: () => (<Entypo name="chat" size={24} color="black" />),
+          }}/>
+        <Tabs.Screen 
+          name="profile" 
+          options={{
+            tabBarLabel: "Профиль",
+            tabBarIcon: () => (<FontAwesome name="user" size={24} color="black" />),
+          }}/>
       </Tabs>
     </>
   )
