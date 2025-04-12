@@ -18,6 +18,10 @@ export const authService = {
     return apiClient.post('/register', userData);
   },
 
+  async getDeliveries(userLogin: string) {
+    return apiClient.get('/getDeliveries', userLogin);
+  },
+
   async getCurrentUser() {
     return apiClient.get('/auth/me');
   }

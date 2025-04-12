@@ -7,10 +7,15 @@ export const Login = () => {
   const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
 
-  const handleButtonPress = () =>{
-    // authService.login({login: login, password: password})
-    router.navigate("/(tabs)")
-    // alert(login + " --- " + password)
+  const handleButtonPress = () => {
+    authService.login({ login: login, password: password })
+      .then(result => {
+        if(result["message"] === "Вход выполнен успешно"){
+          router.navigate("/(tabs)")
+        }else{
+          alert("Ошибка авторизации")
+        }
+      })
   }
 
   return (

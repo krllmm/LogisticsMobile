@@ -8,30 +8,21 @@ import { Header } from "@/components/Header";
 import React from "react";
 
 export default function Index() {
+
+  
+
   return (
     <>
-    <Header title="Перевозки"/>
+      <Header title="Перевозки"/>
+      <View>
+
+      </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  form: {
-    position: "absolute",
-    backgroundColor: "#bfbfbf",
-    borderRadius: 24,
-    padding: 24,
-  },
-  input: {
-    borderWidth: 3,
-    padding: 10,
-    borderColor: "#000",
-    borderRadius: 50,
-  },
+
+  }  
 })
