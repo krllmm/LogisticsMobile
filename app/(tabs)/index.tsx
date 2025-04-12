@@ -18,15 +18,15 @@ export default function Index() {
   const [deliveries, setDeliveries] = useState<Deliveries[]>([]);
 
   const getData = async () => {
-    const login = await AsyncStorage.getItem('user_login');
+    const login: string = await AsyncStorage.getItem('user_login') || "";
     console.log(login);
 
-    await authService.getDeliveries(login || "")
+    await authService.getDeliveries({login: login})
       .then(res => {
         // console.log(res)
         setDeliveries(res)
       })
-      .catch(error => console.log(error))
+      .catch(error => console.log("ошибка: " + error))
   }
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function Index() {
       <View>
         {
           deliveries.map((d) => (
-            <View style={styles.container}>
+            <View style={styles.container} key={d.id}>
               <Text style={styles.title}>
                 <Feather name="package" size={20} color="black" /> {d.from} -{">"} {d.to} 
               </Text>

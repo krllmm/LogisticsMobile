@@ -18,11 +18,11 @@ export const authService = {
     return apiClient.post('/register', userData);
   },
 
-  async getDeliveries(userLogin: string) {
-    return apiClient.get('/getDeliveries', userLogin);
+  async getDeliveries(userData: userDataProps) {
+    return apiClient.get('/getDeliveries', userData);
   },
 
-  async getCurrentUser() {
-    return apiClient.get('/auth/me');
+  async getCurrentDriver(userData: userDataProps) {
+    return apiClient.get('/driver', userData);
   }
 };

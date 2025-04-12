@@ -1,16 +1,17 @@
 import { API_CONFIG } from './config';
 
 export const apiClient = {
-    //async get(endpoint: string, params[])
-  async get(endpoint: string, userLogin?: string) {
-    // const url = new URL(`${API_CONFIG.BASE_URL}${endpoint}`);
-    // Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+  async get(endpoint: string, params: any){
+    let url = `${API_CONFIG.BASE_URL}${endpoint}`;
+    for (const property in params) {
+      url += `?${property}=${params[property]}`
+    }
+    console.log(url)
     
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}${endpoint}?login=${userLogin}`, {
+      const response = await fetch(url, {
         method: 'GET',
         headers: API_CONFIG.HEADERS,
-        // body: userLogin ? JSON.stringify(userLogin) : "",
       });
       
       if (!response.ok) {
