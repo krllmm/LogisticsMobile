@@ -1,22 +1,36 @@
 import { authService } from "@/services/api/endpoints/auth";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextInput, View, StyleSheet, Text, Pressable } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Login = () => {
   const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
 
+  const checkUser = async () => {
+    const login = await AsyncStorage.getItem('user_login');
+
+    if(login){
+      router.navigate("/(tabs)")
+    }
+  }
+
   const handleButtonPress = () => {
     authService.login({ login: login, password: password })
-      .then(result => {
+      .then(async result => {
         if(result["message"] === "Вход выполнен успешно"){
+          await AsyncStorage.setItem('user_login', login);
           router.navigate("/(tabs)")
         }else{
           alert("Ошибка авторизации")
         }
       })
   }
+
+  useEffect(() => {
+    checkUser()
+  }, []) 
 
   return (
     <View style={styles.container}>
