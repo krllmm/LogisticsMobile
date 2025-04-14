@@ -5,7 +5,7 @@ import { FontAwesome, Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
 export default function RootLayout() {
   return (
     <>
-      <Tabs screenOptions={{headerShown: false}}>
+      <Tabs screenOptions={{ headerTitleAlign: "center", headerShown: false}}>
         <Tabs.Screen 
           name="index" 
           options={{

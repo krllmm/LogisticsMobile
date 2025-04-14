@@ -8,13 +8,14 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           title: "Авторизация",
+          headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: '#ced1cd',
           },
           headerShadowVisible: false,
           headerTintColor: '#363636',
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: 'bold', 
           },
         }}>
          <Stack.Screen name="index" />
