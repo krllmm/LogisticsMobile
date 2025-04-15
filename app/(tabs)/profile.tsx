@@ -11,7 +11,7 @@ import { StyleSheet, Text, TextInput, View, ImageBackground, Pressable } from "r
 interface Driver {
   age: number, 
   category: string,
-  experience: number,
+  experince: number,
   first_name: string,
   second_name: string
 }
@@ -54,6 +54,12 @@ export default function Index() {
         </View>
       </View>
 
+      <View style={{...styles.driversCard, ...styles.infoContainer}}>
+        <Text style={styles.info}>Категория: {driver?.category}</Text>
+        <Text style={styles.info}>Опыт: {driver?.experince}</Text>
+        <Text style={styles.info}>Возраст: {driver?.age}</Text>
+      </View>
+
       <Pressable style={styles.driversCard} onPress={handleLogout}>
         <MaterialIcons name="logout" size={24} color="black" />
         <Text style={styles.logout}>Выйти</Text>
@@ -77,12 +83,18 @@ const styles = StyleSheet.create({
     elevation: 2,
     flexDirection: "row",
     alignItems: "center",
-    // justifyContent: "center",
   },
   name: {
     marginLeft: 14,
     fontSize: 24,
     fontWeight: 700,
+  },
+  infoContainer: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
+  info: {
+    fontSize: 16,
   },
   logout: {
     fontSize: 18,
