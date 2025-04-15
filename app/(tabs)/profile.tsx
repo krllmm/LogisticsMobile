@@ -4,7 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect } from "react";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, ImageBackground } from "react-native";
+import { router } from "expo-router";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { StyleSheet, Text, TextInput, View, ImageBackground, Pressable } from "react-native";
 
 interface Driver {
   age: number, 
@@ -35,6 +37,10 @@ export default function Index() {
     // console.log("delivery: ", deliveries)
   }, [])
 
+  const handleLogout = () => {
+      router.replace("./index");
+  }
+
   return (
     <>
       <Header title="Профиль"/>
@@ -46,6 +52,11 @@ export default function Index() {
           <Text style={styles.name}>{driver?.first_name} {driver?.second_name}</Text>
         </View>
       </View>
+
+      <Pressable style={styles.driversCard} onPress={handleLogout}>
+        <MaterialIcons name="logout" size={24} color="black" />
+        <Text style={styles.logout}>Выйти</Text>
+      </Pressable>
       
     </>
   );
@@ -71,5 +82,9 @@ const styles = StyleSheet.create({
     marginLeft: 14,
     fontSize: 24,
     fontWeight: 700,
+  },
+  logout: {
+    fontSize: 18,
+    marginLeft: 14,
   }
 })

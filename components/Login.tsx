@@ -52,14 +52,14 @@ export const Login = () => {
           value={password}
           onChangeText={setPassword}
           placeholder="Пароль"
-          secureTextEntry={passwordVisibility}
+          secureTextEntry={!passwordVisibility}
         />
 
         <Pressable style={{ position: "absolute", right: 0, marginRight: 12 }}>
           {
             passwordVisibility 
-                ? <Ionicons name="eye" size={24} color="black" onPress={() => setPasswordVisibility(!passwordVisibility)}/> 
-                : <Ionicons name="eye-off" size={24} color="black" onPress={() => setPasswordVisibility(!passwordVisibility)}/>
+                ? <Ionicons name="eye-off" size={24} color="black" onPress={() => setPasswordVisibility(!passwordVisibility)}/> 
+                : <Ionicons name="eye" size={24} color="black" onPress={() => setPasswordVisibility(!passwordVisibility)}/>
           }
         </Pressable>
 
