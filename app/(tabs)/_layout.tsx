@@ -7,7 +7,7 @@ export default function RootLayout() {
     <>
       <Tabs screenOptions={{ headerTitleAlign: "center", headerShown: false}}>
         <Tabs.Screen 
-          name="index" 
+          name="delivery" 
           options={{
             tabBarLabel: "Перевозки",
             tabBarIcon: () => (<MaterialCommunityIcons name="truck-delivery" size={24} color="black" />),

@@ -14,7 +14,7 @@ export const Login = () => {
     const login = await AsyncStorage.getItem('user_login');
 
     if (login) {
-      router.navigate("/(tabs)")
+      router.navigate("/(tabs)/delivery")
     }
   }
 
@@ -23,7 +23,7 @@ export const Login = () => {
       .then(async result => {
         if (result["message"] === "Вход выполнен успешно") {
           await AsyncStorage.setItem('user_login', login);
-          router.navigate("/(tabs)")
+          router.navigate("/(tabs)/delivery")
         } else {
           alert("Ошибка авторизации")
         }

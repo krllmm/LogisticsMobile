@@ -37,8 +37,9 @@ export default function Index() {
     // console.log("delivery: ", deliveries)
   }, [])
 
-  const handleLogout = () => {
-      router.replace("./index");
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem("user_login")
+    router.replace('/(auth)');
   }
 
   return (
