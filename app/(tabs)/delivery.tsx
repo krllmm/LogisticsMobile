@@ -5,6 +5,7 @@ import React from "react";
 import { authService } from "@/services/api/endpoints/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Feather from '@expo/vector-icons/Feather';
+import { Link } from "expo-router";
 
 interface Deliveries {
   id: number,
@@ -21,7 +22,7 @@ export default function Index() {
     const login: string = await AsyncStorage.getItem('user_login') || "";
     console.log(login);
 
-    await authService.getDeliveries({login: login})
+    await authService.getDeliveries({ login: login })
       .then(res => {
         // console.log(res)
         setDeliveries(res)
@@ -43,11 +44,19 @@ export default function Index() {
           deliveries.map((d) => (
             <View style={styles.container} key={d.id}>
               <Text style={styles.title}>
-                <Feather name="package" size={20} color="black" /> {d.from} -{">"} {d.to} 
+                <Feather name="package" size={20} color="black" /> {d.from} -{">"} {d.to}
               </Text>
               <View style={styles.divider}></View>
               <Text style={styles.detailsText}>Количество: {d.amount}</Text>
-              <Text style={styles.detailsText}>Товар: {d.product_id}</Text>
+              <Text style={styles.detailsText}>Товар: 
+                <Link
+                  href={{
+                    pathname: '/products/[id]',
+                    params: { id: d.product_id.toString() },
+                  }}>
+                  {d.product_id}
+                </Link>
+              </Text>
             </View>
           ))
         }
