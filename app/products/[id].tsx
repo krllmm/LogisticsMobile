@@ -33,10 +33,10 @@ export default function Product() {
         <Text style={styles.textInfo}>{product?.description}</Text>
       </View>
       <View style={styles.container}>
-        <Text style={styles.textInfo}>{product?.weight} кг</Text>
+        <Text style={styles.textInfo}>Вес: {product?.weight} кг</Text>
       </View>
       <View style={styles.container}>
-        <Text style={styles.textInfo}>{product?.dimentions.split(", ").join("см, ")}см</Text>
+        <Text style={styles.textInfo}>Габариты: {product?.dimentions.split(", ").join("см, ")}см</Text>
       </View>
     </>
   )
