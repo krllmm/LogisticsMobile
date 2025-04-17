@@ -48,13 +48,13 @@ export default function Index() {
               </Text>
               <View style={styles.divider}></View>
               <Text style={styles.detailsText}>Количество: {d.amount}</Text>
-              <Text style={styles.detailsText}>Товар: 
+              <Text style={styles.detailsText}>
                 <Link
                   href={{
                     pathname: '/products/[id]',
                     params: { id: d.product_id.toString() },
                   }}>
-                  {d.product_id}
+                  Товар
                 </Link>
               </Text>
             </View>
