@@ -7,6 +7,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Feather from '@expo/vector-icons/Feather';
 import { Link } from "expo-router";
 
+import Entypo from '@expo/vector-icons/Entypo';
+import { DeliveryCard } from "@/components/DeliveryCard";
+
 interface Deliveries {
   id: number,
   from: string,
@@ -42,53 +45,10 @@ export default function Index() {
       <View>
         {
           deliveries.map((d) => (
-            <View style={styles.container} key={d.id}>
-              <Text style={styles.title}>
-                <Feather name="package" size={20} color="black" /> {d.from} -{">"} {d.to}
-              </Text>
-              <View style={styles.divider}></View>
-              <Text style={styles.detailsText}>Количество: {d.amount}</Text>
-              <Text style={styles.detailsText}>
-                <Link
-                  href={{
-                    pathname: '/products/[id]',
-                    params: { id: d.product_id.toString() },
-                  }}>
-                  Товар
-                </Link>
-              </Text>
-            </View>
+            <DeliveryCard delivery={d}/>
           ))
         }
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    borderRadius: 24,
-    padding: 18,
-    margin: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 700,
-  },
-  detailsText: {
-    fontSize: 16,
-    marginTop: 8,
-  },
-  divider: {
-    backgroundColor: "lightgrey",
-    height: 2,
-    marginVertical: 8,
-  }
-})
