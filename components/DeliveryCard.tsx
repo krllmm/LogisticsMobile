@@ -2,7 +2,7 @@ import { Entypo, Feather } from "@expo/vector-icons"
 import { Link } from "expo-router"
 import React from "react"
 import { useState } from "react"
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Pressable, Linking, Platform } from "react-native"
 
 type DeliveryCardProps = {
   delivery: any
@@ -10,6 +10,57 @@ type DeliveryCardProps = {
 
 export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [origin, setOrigin] = useState("")
+  const [destination, setDestination] = useState("")
+
+  const getCoordinatesFromAddress = async (address: string) => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
+  
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Diplom/1.0 kirilenkich@gmail.com' // обязателен!
+        }
+      });
+      const data = await response.json();
+      if (data.length > 0) {
+        return `${parseFloat(data[0].lat)},${parseFloat(data[0].lon)}`;
+        // console.log(coordsString); 
+        // return {
+        //   latitude: parseFloat(data[0].lat),
+        //   longitude: parseFloat(data[0].lon),
+        // };
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Ошибка геокодирования:', error);
+      return null;
+    }
+  };
+  
+  const handleOpenMaps = async () => {
+    console.log(delivery.from_address)
+    const origin = await getCoordinatesFromAddress(`${delivery.from_address}, ${delivery.from}`)
+    if(origin){
+      setOrigin(origin)
+    }
+    const destination = await getCoordinatesFromAddress(`${delivery.to_address}, ${delivery.to}`)
+    if(destination){
+      setOrigin(destination)
+    }
+    console.log(origin, destination)
+    console.log(`https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`)
+
+    if (Platform.OS === 'android') {
+      const url = `google.navigation:q=${destination}&origin=${origin}`;
+      Linking.openURL(url);
+    } else {
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
+      Linking.openURL(url);
+    }
+  }
+  
   return (
     <View style={styles.container} key={delivery.id}>
       <View style={{ display: "flex", flexDirection: "row" }}>
@@ -32,6 +83,12 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
               Товар
             </Link>
           </Text>
+          <Text style={styles.detailsText}>Старт: {delivery.from_address}</Text>
+          <Text style={styles.detailsText}>До: {delivery.to_address}</Text>
+
+          <Pressable style={styles.button} onPress={handleOpenMaps}>
+              <Text style={{ fontSize: 16 }}>Построить маршрут</Text>
+          </Pressable>
         </View>
       }
     </View>
@@ -40,6 +97,7 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#fff",
     display: "flex",
     flexDirection: "column",
     borderWidth: 2,
@@ -66,5 +124,14 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgrey",
     height: 2,
     marginVertical: 8,
-  }
+  },
+  button: {
+    backgroundColor: '#ced1cd',
+    alignSelf: "flex-end",
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 12,
+    borderColor: "#363636",
+    borderWidth: 2,
+  },
 })

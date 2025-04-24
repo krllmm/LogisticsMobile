@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View, ImageBackground } from "react-native";
+import { View } from "react-native";
 import { Header } from "@/components/Header";
 import React from "react";
 import { authService } from "@/services/api/endpoints/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Feather from '@expo/vector-icons/Feather';
-import { Link } from "expo-router";
-
-import Entypo from '@expo/vector-icons/Entypo';
 import { DeliveryCard } from "@/components/DeliveryCard";
 
 interface Deliveries {
   id: number,
   from: string,
+  from_address: string,
   to: string,
+  to_address: string,
   amount: number,
   product_id: number,
 }
@@ -44,8 +42,8 @@ export default function Index() {
       <Header title="Перевозки" />
       <View>
         {
-          deliveries.map((d) => (
-            <DeliveryCard delivery={d}/>
+          deliveries.map((d, index) => (
+            <DeliveryCard delivery={d} key={index}/>
           ))
         }
       </View>

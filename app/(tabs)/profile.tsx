@@ -71,6 +71,7 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   driversCard: {
+    backgroundColor: "#fff",
     borderWidth: 2,
     borderColor: "lightgrey",
     borderRadius: 24,

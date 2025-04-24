@@ -44,6 +44,7 @@ export default function Product() {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#fff",
     borderWidth: 2,
     borderColor: "lightgrey",
     borderRadius: 24,
