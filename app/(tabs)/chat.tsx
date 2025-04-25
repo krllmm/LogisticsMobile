@@ -65,7 +65,7 @@ export default function Index() {
 
   return (
     <>
-      <Header title="Чат" />
+      <Header title="Чат" backIcon={false}/>
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useLocalSearchParams } from 'expo-router';
 import { StyleSheet, Text, TextInput, View, ImageBackground } from "react-native";
 import { itemService } from "@/services/api/endpoints/item";
+import { Header } from "@/components/Header";
 
 interface Product {
   name: string,
@@ -26,6 +27,7 @@ export default function Product() {
 
   return (
     <>
+      <Header title="Товар" backIcon={true}/>
       <View style={styles.container}>
         <Text style={styles.textInfo}>{product?.name}</Text>
       </View>

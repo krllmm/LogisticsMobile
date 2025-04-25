@@ -45,7 +45,7 @@ export default function Index() {
 
   return (
     <>
-      <Header title="Профиль"/>
+      <Header title="Профиль" backIcon={false}/>
       <View style={styles.driversCard}>
         <View>
           <FontAwesome5 name="user-alt" size={24} color="black" />

@@ -39,7 +39,7 @@ export default function Index() {
 
   return (
     <>
-      <Header title="Перевозки" />
+      <Header title="Перевозки" backIcon={false}/>
       <View>
         {
           deliveries.map((d, index) => (
