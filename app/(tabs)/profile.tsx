@@ -7,6 +7,7 @@ import { useState } from "react";
 import { router } from "expo-router";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { StyleSheet, Text, TextInput, View, ImageBackground, Pressable } from "react-native";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 interface Driver {
   age: number, 
@@ -60,9 +61,15 @@ export default function Index() {
         <Text style={styles.info}>Возраст: {driver?.age}</Text>
       </View>
 
+      <Pressable style={styles.driversCard} onPress={() => {router.push('../settings/')}}>
+        <AntDesign name="setting" size={24} color="black" />
+        <Text style={styles.rightText}>Настройки</Text>
+      </Pressable>
+
+
       <Pressable style={styles.driversCard} onPress={handleLogout}>
         <MaterialIcons name="logout" size={24} color="black" />
-        <Text style={styles.logout}>Выйти</Text>
+        <Text style={styles.rightText}>Выйти</Text>
       </Pressable>
       
     </>
@@ -97,7 +104,7 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 16,
   },
-  logout: {
+  rightText: {
     fontSize: 18,
     marginLeft: 14,
   }
