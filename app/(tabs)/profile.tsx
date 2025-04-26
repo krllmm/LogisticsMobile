@@ -6,11 +6,11 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useState } from "react";
 import { router } from "expo-router";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { StyleSheet, Text, TextInput, View, ImageBackground, Pressable } from "react-native";
+import { StyleSheet, Text, TextInput, View, ImageBackground, Pressable, ActivityIndicator } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 interface Driver {
-  age: number, 
+  age: number,
   category: string,
   experince: number,
   first_name: string,
@@ -19,23 +19,32 @@ interface Driver {
 
 export default function Index() {
   const [driver, setDriver] = useState<Driver>();
+  const [loading, setLoading] = useState(false)
+  const [apiError, setApiError] = useState("")
 
   const getData = async () => {
+    setApiError("")
+    setLoading(true)
     const login = await AsyncStorage.getItem('user_login');
-    console.log(login);
 
-    await authService.getCurrentDriver({login: login || ""})
+    await authService.getCurrentDriver({ login: login || "" })
       .then(res => {
-        console.log(res)
-        setDriver(res)
+        if (!res) {
+          throw new Error('Ошибка на сервере');
+        } else {
+          setDriver(res)
+        }
       })
-      .catch(error => console.log(error))
+      .catch((err: any) => {
+        console.log(err);
+        setApiError("Не удалось получить данные. Возможно сервер на данный момент не работает.");
+      }
+      )
+      .finally(() => setTimeout(() => { setLoading(false) }, 1000))
   }
 
   useEffect(() => {
     getData()
-
-    // console.log("delivery: ", deliveries)
   }, [])
 
   const handleLogout = async () => {
@@ -45,33 +54,52 @@ export default function Index() {
 
   return (
     <>
-      <Header title="Профиль" backIcon={false}/>
+      <Header title="Профиль" backIcon={false} />
+
       <View style={styles.driversCard}>
-        <View>
-          <FontAwesome5 name="user-alt" size={24} color="black" />
-        </View>
-        <View>
-          <Text style={styles.name}>{driver?.first_name} {driver?.second_name}</Text>
-        </View>
+        {
+          loading ?
+            <ActivityIndicator size={28} color="#000" style={{ flex: 1 }} />
+            : <>
+              <View>
+                <FontAwesome5 name="user-alt" size={24} color="black" />
+              </View>
+              <View>
+                <Text style={styles.name}>{driver?.first_name} {driver?.second_name}</Text>
+              </View>
+            </>
+        }
       </View>
 
-      <View style={{...styles.driversCard, ...styles.infoContainer}}>
-        <Text style={styles.info}>Категория: {driver?.category}</Text>
-        <Text style={styles.info}>Опыт: {driver?.experince}</Text>
-        <Text style={styles.info}>Возраст: {driver?.age}</Text>
+
+      <View style={{ ...styles.driversCard, ...styles.infoContainer }}>
+        {
+          loading ?
+            <ActivityIndicator size={28} color="#000" style={{ flex: 1, alignSelf: "center" }} />
+            : <>
+              <Text style={styles.info}>Категория: {driver?.category}</Text>
+              <Text style={styles.info}>Опыт: {driver?.experince}</Text>
+              <Text style={styles.info}>Возраст: {driver?.age}</Text>
+            </>
+        }
       </View>
 
-      <Pressable style={styles.driversCard} onPress={() => {router.push('../settings/')}}>
-        <AntDesign name="setting" size={24} color="black" />
-        <Text style={styles.rightText}>Настройки</Text>
-      </Pressable>
+      {
+        !loading ?
+          <>
+            <Pressable style={styles.driversCard} onPress={() => { router.push('../settings/') }}>
+              <AntDesign name="setting" size={24} color="black" />
+              <Text style={styles.rightText}>Настройки</Text>
+            </Pressable>
 
 
-      <Pressable style={styles.driversCard} onPress={handleLogout}>
-        <MaterialIcons name="logout" size={24} color="black" />
-        <Text style={styles.rightText}>Выйти</Text>
-      </Pressable>
-      
+            <Pressable style={styles.driversCard} onPress={handleLogout}>
+              <MaterialIcons name="logout" size={24} color="black" />
+              <Text style={styles.rightText}>Выйти</Text>
+            </Pressable>
+          </>
+          : ""
+      }
     </>
   );
 }
@@ -102,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   info: {
-    fontSize: 16,
+    fontSize: 18,
   },
   rightText: {
     fontSize: 18,

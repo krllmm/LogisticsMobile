@@ -47,7 +47,7 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
     }
     const destination = await getCoordinatesFromAddress(`${delivery.to_address}, ${delivery.to}`)
     if(destination){
-      setOrigin(destination)
+      setDestination(destination)
     }
     console.log(origin, destination)
     console.log(`https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`)
@@ -68,28 +68,33 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
         <Text style={styles.title}>
           {delivery.from} -{">"} {delivery.to}
         </Text>
-        <Entypo name={isOpen ? "chevron-thin-up" : "chevron-thin-down"} size={24} color="black" style={{ marginLeft: "auto" }} onPress={() => setIsOpen(!isOpen)} />
+        <Entypo name={isOpen ? "chevron-thin-up" : "chevron-thin-down"} 
+                size={24} 
+                color="black" 
+                style={{ marginLeft: "auto" }}  
+                onPress={() => setIsOpen(!isOpen)} />
       </View>
       {
-        isOpen && <View>
-          <View style={styles.divider}></View>
-          <Text style={styles.detailsText}>Количество: {delivery.amount}</Text>
-          <Text style={styles.detailsText}>
-            <Link
-              href={{
-                pathname: '/products/[id]',
-                params: { id: delivery.product_id.toString() },
-              }}>
-              Товар
-            </Link>
-          </Text>
-          <Text style={styles.detailsText}>Старт: {delivery.from_address}</Text>
-          <Text style={styles.detailsText}>До: {delivery.to_address}</Text>
+        isOpen && 
+        <View>
+            <View style={styles.divider}></View>
+            <Text style={styles.detailsText}>Количество: {delivery.amount}</Text>
+            <Text style={styles.detailsText}>
+              <Link
+                href={{
+                  pathname: '/products/[id]',
+                  params: { id: delivery.product_id.toString() },
+                }}>
+                Товар
+              </Link>
+            </Text>
+            <Text style={styles.detailsText}>Старт: {delivery.from_address}</Text>
+            <Text style={styles.detailsText}>До: {delivery.to_address}</Text>
 
-          <Pressable style={styles.button} onPress={handleOpenMaps}>
-              <Text style={{ fontSize: 16 }}>Построить маршрут</Text>
-          </Pressable>
-        </View>
+            <Pressable style={styles.button} onPress={handleOpenMaps}>
+                <Text style={{ fontSize: 16 }}>Построить маршрут</Text>
+            </Pressable>
+          </View>
       }
     </View>
   )
