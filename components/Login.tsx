@@ -10,6 +10,9 @@ export const Login = () => {
   const [password, setPassword] = useState("")
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
+  const [toastText, setToastText] = useState("")
+  const [openToast, setOpenToast] = useState(false);
+
   const checkUser = async () => {
     const login = await AsyncStorage.getItem('user_login');
 
@@ -19,13 +22,16 @@ export const Login = () => {
   }
 
   const handleButtonPress = () => {
+    setToastText("")
+    setOpenToast(false)
     authService.login({ login: login, password: password })
       .then(async result => {
         if (result["message"] === "Вход выполнен успешно") {
           await AsyncStorage.setItem('user_login', login);
           router.navigate("/(tabs)/delivery")
         } else {
-          alert("Ошибка авторизации")
+          setToastText(result)
+          setOpenToast(true)
         }
       })
   }
@@ -37,6 +43,12 @@ export const Login = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Вход в систему</Text>
+
+      <View style={{ display: openToast ? "flex" : "none" }}>
+        <Text style={{ color: "red", fontSize: 16 }}>
+          {toastText}
+        </Text>
+      </View>
 
       <TextInput
         style={styles.input}
@@ -57,9 +69,9 @@ export const Login = () => {
 
         <Pressable style={{ position: "absolute", right: 0, marginRight: 12 }}>
           {
-            passwordVisibility 
-                ? <Ionicons name="eye-off" size={24} color="black" onPress={() => setPasswordVisibility(!passwordVisibility)}/> 
-                : <Ionicons name="eye" size={24} color="black" onPress={() => setPasswordVisibility(!passwordVisibility)}/>
+            passwordVisibility
+              ? <Ionicons name="eye-off" size={24} color="black" onPress={() => setPasswordVisibility(!passwordVisibility)} />
+              : <Ionicons name="eye" size={24} color="black" onPress={() => setPasswordVisibility(!passwordVisibility)} />
           }
         </Pressable>
 

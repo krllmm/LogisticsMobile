@@ -18,7 +18,8 @@ export const apiClient = {
       });
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        return data.error; 
       }
       
       return await response.json();
@@ -37,7 +38,8 @@ export const apiClient = {
       });
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        return data.error; 
       }
       
       return await response.json();
