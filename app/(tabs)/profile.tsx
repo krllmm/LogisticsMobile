@@ -6,9 +6,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useState } from "react";
 import { router } from "expo-router";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { StyleSheet, Text, TextInput, View, ImageBackground, Pressable, ActivityIndicator } from "react-native";
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { Entypo } from "@expo/vector-icons";
+import { StyleSheet, Text, View, Pressable, ActivityIndicator } from "react-native";
 import ErrorScreen from "@/components/ErrorScreen";
 
 interface Driver {
@@ -54,7 +52,7 @@ export default function Index() {
 
   return (
     <>
-      <Header title="Профиль" backIcon={false} />
+      <Header title="Профиль" backIcon={false} settingsIcon={true}/>
       {
         (apiError != "") && !loading ?
           <ErrorScreen apiError={apiError} getData={getData}/>
@@ -75,16 +73,10 @@ export default function Index() {
             </View>
 
             <View style={{ ...styles.driversCard, ...styles.infoContainer }}>
-
               <Text style={styles.info}>Категория: {driver?.category}</Text>
               <Text style={styles.info}>Опыт: {driver?.experince}</Text>
               <Text style={styles.info}>Возраст: {driver?.age}</Text>
             </View>
-
-            <Pressable style={styles.driversCard} onPress={() => { router.push('../settings/') }}>
-              <AntDesign name="setting" size={24} color="black" />
-              <Text style={styles.rightText}>Настройки</Text>
-            </Pressable>
 
             <Pressable style={styles.driversCard} onPress={handleLogout}>
               <MaterialIcons name="logout" size={24} color="black" />
