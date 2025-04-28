@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, View, Text, StyleSheet, Pressable } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { Header } from "@/components/Header";
 import React from "react";
 import { authService } from "@/services/api/endpoints/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeliveryCard } from "@/components/DeliveryCard";
-import Animated, { FadeInDown } from 'react-native-reanimated';
-import Entypo from '@expo/vector-icons/Entypo';
 import ErrorScreen from "@/components/ErrorScreen";
 
 interface Deliveries {
@@ -34,12 +32,10 @@ export default function Index() {
         if (!res) {
           throw new Error('Ошибка на сервере');
         }else{
-          console.log("data: " + res)
           setDeliveries(res)
         }
       })
-      .catch((err: any) => {
-        console.log(err);
+      .catch(() => {
         setApiError("Не удалось получить данные. Возможно сервер на данный момент не работает.");
       }
       )

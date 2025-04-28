@@ -9,6 +9,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { StyleSheet, Text, TextInput, View, ImageBackground, Pressable, ActivityIndicator } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Entypo } from "@expo/vector-icons";
+import ErrorScreen from "@/components/ErrorScreen";
 
 interface Driver {
   age: number,
@@ -36,8 +37,7 @@ export default function Index() {
           setDriver(res)
         }
       })
-      .catch((err: any) => {
-        console.log(err);
+      .catch(() => {
         setApiError("Не удалось получить данные. Возможно сервер на данный момент не работает.");
       })
       .finally(() => setTimeout(() => { setLoading(false) }, 1000))
@@ -57,15 +57,7 @@ export default function Index() {
       <Header title="Профиль" backIcon={false} />
       {
         (apiError != "") && !loading ?
-          <>
-            <View style={styles.errorContainer}>
-              <Entypo name="emoji-sad" size={64} color="grey" />
-              <Text style={styles.errorText}>{apiError}</Text>
-              <Pressable onPress={() => getData()}>
-                <Text style={{ ...styles.errorText, color: "black", marginTop: 12, textDecorationLine: "underline" }}>Попробовать еще раз</Text>
-              </Pressable>
-            </View>
-          </>
+          <ErrorScreen apiError={apiError} getData={getData}/>
           : ""
       }
       {
