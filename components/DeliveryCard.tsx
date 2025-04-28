@@ -3,6 +3,8 @@ import { Link } from "expo-router"
 import React from "react"
 import { useState } from "react"
 import { View, Text, StyleSheet, Pressable, Linking, Platform } from "react-native"
+import Animated, { FadeInDown } from 'react-native-reanimated';
+
 
 type DeliveryCardProps = {
   delivery: any
@@ -15,21 +17,16 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
 
   const getCoordinatesFromAddress = async (address: string) => {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
-  
+
     try {
       const response = await fetch(url, {
         headers: {
-          'User-Agent': 'Diplom/1.0 kirilenkich@gmail.com' // обязателен!
+          'User-Agent': 'Diplom/1.0 kirilenkich@gmail.com'
         }
       });
       const data = await response.json();
       if (data.length > 0) {
         return `${parseFloat(data[0].lat)},${parseFloat(data[0].lon)}`;
-        // console.log(coordsString); 
-        // return {
-        //   latitude: parseFloat(data[0].lat),
-        //   longitude: parseFloat(data[0].lon),
-        // };
       } else {
         return null;
       }
@@ -38,15 +35,15 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
       return null;
     }
   };
-  
+
   const handleOpenMaps = async () => {
     console.log(delivery.from_address)
     const origin = await getCoordinatesFromAddress(`${delivery.from_address}, ${delivery.from}`)
-    if(origin){
+    if (origin) {
       setOrigin(origin)
     }
     const destination = await getCoordinatesFromAddress(`${delivery.to_address}, ${delivery.to}`)
-    if(destination){
+    if (destination) {
       setDestination(destination)
     }
     console.log(origin, destination)
@@ -60,41 +57,46 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
       Linking.openURL(url);
     }
   }
-  
+
   return (
     <View style={styles.container} key={delivery.id}>
-      <View style={{ display: "flex", flexDirection: "row" }}>
+
+      <Animated.View 
+        entering={FadeInDown.duration((delivery.id + 1) * 250)}
+        style={{ display: "flex", flexDirection: "row" }}
+        >
         <Feather name="package" size={24} color="black" />
         <Text style={styles.title}>
           {delivery.from} -{">"} {delivery.to}
         </Text>
-        <Entypo name={isOpen ? "chevron-thin-up" : "chevron-thin-down"} 
-                size={24} 
-                color="black" 
-                style={{ marginLeft: "auto" }}  
-                onPress={() => setIsOpen(!isOpen)} />
-      </View>
-      {
-        isOpen && 
-        <View>
-            <View style={styles.divider}></View>
-            <Text style={styles.detailsText}>Количество: {delivery.amount}</Text>
-            <Text style={styles.detailsText}>
-              <Link
-                href={{
-                  pathname: '/products/[id]',
-                  params: { id: delivery.product_id.toString() },
-                }}>
-                Товар
-              </Link>
-            </Text>
-            <Text style={styles.detailsText}>Старт: {delivery.from_address}</Text>
-            <Text style={styles.detailsText}>До: {delivery.to_address}</Text>
+        <Entypo name={isOpen ? "chevron-thin-up" : "chevron-thin-down"}
+          size={24}
+          color="black"
+          style={{ marginLeft: "auto" }}
+          onPress={() => setIsOpen(!isOpen)} />
+      </Animated.View>
 
-            <Pressable style={styles.button} onPress={handleOpenMaps}>
-                <Text style={{ fontSize: 16 }}>Построить маршрут</Text>
-            </Pressable>
-          </View>
+      {
+        isOpen &&
+        <View>
+          <View style={styles.divider}></View>
+          <Text style={styles.detailsText}>Количество: {delivery.amount}</Text>
+          <Text style={styles.detailsText}>
+            <Link
+              href={{
+                pathname: '/products/[id]',
+                params: { id: delivery.product_id.toString() },
+              }}>
+              Товар
+            </Link>
+          </Text>
+          <Text style={styles.detailsText}>Старт: {delivery.from_address}</Text>
+          <Text style={styles.detailsText}>До: {delivery.to_address}</Text>
+
+          <Pressable style={styles.button} onPress={handleOpenMaps}>
+            <Text style={{ fontSize: 16 }}>Построить маршрут</Text>
+          </Pressable>
+        </View>
       }
     </View>
   )

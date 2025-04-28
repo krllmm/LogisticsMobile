@@ -8,6 +8,7 @@ import { router } from "expo-router";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { StyleSheet, Text, TextInput, View, ImageBackground, Pressable, ActivityIndicator } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { Entypo } from "@expo/vector-icons";
 
 interface Driver {
   age: number,
@@ -38,8 +39,7 @@ export default function Index() {
       .catch((err: any) => {
         console.log(err);
         setApiError("Не удалось получить данные. Возможно сервер на данный момент не работает.");
-      }
-      )
+      })
       .finally(() => setTimeout(() => { setLoading(false) }, 1000))
   }
 
@@ -55,50 +55,50 @@ export default function Index() {
   return (
     <>
       <Header title="Профиль" backIcon={false} />
-
-      <View style={styles.driversCard}>
-        {
-          loading ?
-            <ActivityIndicator size={28} color="#000" style={{ flex: 1 }} />
-            : <>
+      {
+        (apiError != "") && !loading ?
+          <>
+            <View style={styles.errorContainer}>
+              <Entypo name="emoji-sad" size={64} color="grey" />
+              <Text style={styles.errorText}>{apiError}</Text>
+              <Pressable onPress={() => getData()}>
+                <Text style={{ ...styles.errorText, color: "black", marginTop: 12, textDecorationLine: "underline" }}>Попробовать еще раз</Text>
+              </Pressable>
+            </View>
+          </>
+          : ""
+      }
+      {
+        loading ?
+          <ActivityIndicator size={64} color="#000" style={{ flex: 1 }} />
+          : 
+          apiError == "" ? <>
+            <View style={styles.driversCard}>
               <View>
                 <FontAwesome5 name="user-alt" size={24} color="black" />
               </View>
               <View>
                 <Text style={styles.name}>{driver?.first_name} {driver?.second_name}</Text>
               </View>
-            </>
-        }
-      </View>
+            </View>
 
+            <View style={{ ...styles.driversCard, ...styles.infoContainer }}>
 
-      <View style={{ ...styles.driversCard, ...styles.infoContainer }}>
-        {
-          loading ?
-            <ActivityIndicator size={28} color="#000" style={{ flex: 1, alignSelf: "center" }} />
-            : <>
               <Text style={styles.info}>Категория: {driver?.category}</Text>
               <Text style={styles.info}>Опыт: {driver?.experince}</Text>
               <Text style={styles.info}>Возраст: {driver?.age}</Text>
-            </>
-        }
-      </View>
+            </View>
 
-      {
-        !loading ?
-          <>
             <Pressable style={styles.driversCard} onPress={() => { router.push('../settings/') }}>
               <AntDesign name="setting" size={24} color="black" />
               <Text style={styles.rightText}>Настройки</Text>
             </Pressable>
 
-
             <Pressable style={styles.driversCard} onPress={handleLogout}>
               <MaterialIcons name="logout" size={24} color="black" />
               <Text style={styles.rightText}>Выйти</Text>
             </Pressable>
-          </>
-          : ""
+          </> : ""
       }
     </>
   );
@@ -135,5 +135,17 @@ const styles = StyleSheet.create({
   rightText: {
     fontSize: 18,
     marginLeft: 14,
-  }
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    marginHorizontal: 16,
+    alignItems: "center",
+  },
+  errorText: {
+    marginTop: 8,
+    fontSize: 18,
+    textAlign: "center",
+    color: "grey"
+  },
 })

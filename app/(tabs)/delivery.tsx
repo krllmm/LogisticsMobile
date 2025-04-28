@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeliveryCard } from "@/components/DeliveryCard";
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import Entypo from '@expo/vector-icons/Entypo';
+import ErrorScreen from "@/components/ErrorScreen";
 
 interface Deliveries {
   id: number,
@@ -53,15 +54,9 @@ export default function Index() {
     <>
       <Header title="Перевозки" backIcon={false} />
       {
-        apiError != "" ?
+        (apiError != "") && !loading ?
           <>
-            <View style={styles.errorContainer}>
-              <Entypo name="emoji-sad" size={64} color="grey" />
-              <Text style={styles.errorText}>{apiError}</Text>
-              <Pressable onPress={() => getData()}>
-                <Text style={{ ...styles.errorText, color: "black", marginTop: 12, textDecorationLine: "underline" }}>Попробовать еще раз</Text>
-              </Pressable>
-            </View>
+            <ErrorScreen apiError={apiError} getData={getData}/>
           </>
           : ""
       }
@@ -73,9 +68,7 @@ export default function Index() {
           <View>
             {
               deliveries.map((d, index) => (
-                <Animated.View entering={FadeInDown.duration((index + 1) * 200)} key={index}>
-                  <DeliveryCard delivery={d} />
-                </Animated.View>
+                <DeliveryCard delivery={d} key={index}/>
               ))
             }
           </View>
@@ -83,18 +76,3 @@ export default function Index() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    marginHorizontal: 16,
-    alignItems: "center",
-  },
-  errorText: {
-    marginTop: 8,
-    fontSize: 18,
-    textAlign: "center",
-    color: "grey"
-  },
-})
