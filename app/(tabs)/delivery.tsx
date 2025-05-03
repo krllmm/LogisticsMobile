@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
 import { Header } from "@/components/Header";
 import React from "react";
 import { authService } from "@/services/api/endpoints/auth";
@@ -61,14 +61,36 @@ export default function Index() {
           ?
           <ActivityIndicator size={64} color="#000" style={{ flex: 1 }} />
           :
-          <View>
+           
+            deliveries.length == 0 ? 
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>Перевозки пока не назначены</Text>
+            </View>
+            : <View>
             {
               deliveries.map((d, index) => (
                 <DeliveryCard delivery={d} key={index}/>
               ))
             }
           </View>
+            
+          
       }
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    marginHorizontal: 16,
+    alignItems: "center",
+  },
+  emptyText: {
+    marginTop: 8,
+    fontSize: 18,
+    textAlign: "center",
+    color: "grey"
+  },
+})

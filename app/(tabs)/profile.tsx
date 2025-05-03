@@ -11,7 +11,7 @@ import ErrorScreen from "@/components/ErrorScreen";
 
 interface Driver {
   age: number,
-  category: string,
+  category: string[],
   experince: number,
   first_name: string,
   second_name: string
@@ -73,7 +73,7 @@ export default function Index() {
             </View>
 
             <View style={{ ...styles.driversCard, ...styles.infoContainer }}>
-              <Text style={styles.info}>Категория: {driver?.category}</Text>
+              <Text style={styles.info}>Категория: {driver?.category.join(", ")}</Text>
               <Text style={styles.info}>Опыт: {driver?.experince}</Text>
               <Text style={styles.info}>Возраст: {driver?.age}</Text>
             </View>
