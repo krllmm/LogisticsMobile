@@ -4,6 +4,10 @@ import React from "react"
 import { useState } from "react"
 import { View, Text, StyleSheet, Pressable, Linking, Platform } from "react-native"
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens"
+import DateDivider from "./DateDivider"
+import { format } from 'date-fns';
 
 
 type DeliveryCardProps = {
@@ -59,46 +63,50 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
   }
 
   return (
-    <View style={styles.container} key={delivery.id}>
+    <>
+      <DateDivider>{format(new Date(delivery.date["$date"]), 'dd.MM.yyyy HH:mm')}</DateDivider>
+      <View style={styles.container} key={delivery.id}>
 
-      <Animated.View 
-        entering={FadeInDown.duration((delivery.id + 1) * 250)}
-        style={{ display: "flex", flexDirection: "row" }}
+        <Animated.View
+          entering={FadeInDown.duration((delivery.id + 1) * 250)}
+          style={{ display: "flex", flexDirection: "row" }}
         >
-        <Feather name="package" size={24} color="black" />
-        <Text style={styles.title}>
-          {delivery.from} -{">"} {delivery.to}
-        </Text>
-        <Entypo name={isOpen ? "chevron-thin-up" : "chevron-thin-down"}
-          size={24}
-          color="black"
-          style={{ marginLeft: "auto" }}
-          onPress={() => setIsOpen(!isOpen)} />
-      </Animated.View>
-
-      {
-        isOpen &&
-        <View>
-          <View style={styles.divider}></View>
-          <Text style={styles.detailsText}>Количество: {delivery.amount}</Text>
-          <Text style={styles.detailsText}>
-            <Link
-              href={{
-                pathname: '/products/[id]',
-                params: { id: delivery.product_id.toString() },
-              }}>
-              Товар
-            </Link>
+          <Feather name="package" size={24} color="black" />
+          <Text style={styles.title}>
+            {delivery.from} -{">"} {delivery.to}
           </Text>
-          <Text style={styles.detailsText}>Старт: {delivery.from_address}</Text>
-          <Text style={styles.detailsText}>До: {delivery.to_address}</Text>
+          <Entypo name={isOpen ? "chevron-thin-up" : "chevron-thin-down"}
+            size={24}
+            color="black"
+            style={{ marginLeft: "auto" }}
+            onPress={() => setIsOpen(!isOpen)} />
+        </Animated.View>
 
-          <Pressable style={styles.button} onPress={handleOpenMaps}>
-            <Text style={{ fontSize: 16 }}>Построить маршрут</Text>
-          </Pressable>
-        </View>
-      }
-    </View>
+        {
+          isOpen &&
+          <View>
+            <View style={styles.divider}></View>
+            <Text style={styles.detailsText}>Количество: {delivery.amount}</Text>
+            <Text style={styles.detailsText}>
+              <Link
+                href={{
+                  pathname: '/products/[id]',
+                  params: { id: delivery.product_id.toString() },
+                }}>
+                Товар
+              </Link>
+            </Text>
+            <Text style={styles.detailsText}>Старт: {delivery.from_address}</Text>
+            <Text style={styles.detailsText}>До: {delivery.to_address}</Text>
+            <Text style={styles.detailsText}>Дата: {new Date(delivery.date["$date"]).toLocaleString()}</Text>
+
+            <Pressable style={styles.button} onPress={handleOpenMaps}>
+              <Text style={{ fontSize: 16 }}><MaterialCommunityIcons name="map-marker-radius" size={16} color="black" /> Маршрут</Text>
+            </Pressable>
+          </View>
+        }
+      </View>
+    </>
   )
 }
 
