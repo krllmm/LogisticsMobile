@@ -16,7 +16,7 @@ interface Deliveries {
   to_address: string,
   amount: number,
   product_id: number,
-  date: string,
+  // date: string,
 }
 
 export default function Index() {
@@ -64,7 +64,7 @@ export default function Index() {
           <ActivityIndicator size={64} color="#000" style={{ flex: 1 }} />
           :
 
-          deliveries.length == 0 ?
+          (deliveries.length == 0) && !apiError ?
             <View style={styles.emptyContainer}>
               <Text style={styles.emptyText}>Перевозки пока не назначены</Text>
               <Pressable onPress={() => getData()}>

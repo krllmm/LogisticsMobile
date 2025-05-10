@@ -2,10 +2,9 @@ import { Entypo, Feather } from "@expo/vector-icons"
 import { Link } from "expo-router"
 import React from "react"
 import { useState } from "react"
-import { View, Text, StyleSheet, Pressable, Linking, Platform } from "react-native"
+import { View, Text, StyleSheet, Pressable, Linking, Platform, ScrollView } from "react-native"
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens"
 import DateDivider from "./DateDivider"
 import { format } from 'date-fns';
 
@@ -64,14 +63,13 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
 
   return (
     <>
-      <DateDivider>{format(new Date(delivery.date["$date"]), 'dd.MM.yyyy HH:mm')}</DateDivider>
-      <View style={styles.container} key={delivery.id}>
+      <ScrollView style={styles.container} key={delivery.id}>
 
         <Animated.View
           entering={FadeInDown.duration((delivery.id + 1) * 250)}
           style={{ display: "flex", flexDirection: "row" }}
         >
-          <Feather name="package" size={24} color="black" />
+          <Feather name="package" size={24} color="#8EBB8E" />
           <Text style={styles.title}>
             {delivery.from} -{">"} {delivery.to}
           </Text>
@@ -86,26 +84,46 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
           isOpen &&
           <View>
             <View style={styles.divider}></View>
-            <Text style={styles.detailsText}>Количество: {delivery.amount}</Text>
-            <Text style={styles.detailsText}>
-              <Link
+            <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+              <Text style={{ fontSize: 18, fontWeight: 600 }}>Статус</Text>
+              <View style={{ backgroundColor: '#8EBB8E', borderRadius: 16, padding: 6, paddingHorizontal: 10, marginLeft: "auto" }}>
+                <Text>Доставляется</Text>
+              </View>
+            </View>
+
+            <Text style={{ fontSize: 16, marginVertical: 10 }}>
+              <Feather name="clock" size={16} color="black" style={{ marginRight: 6 }}/> 
+              Ожидается: {format(new Date(delivery.date["$date"]), 'dd.MM.yyyy HH:mm')}
+            </Text>
+
+            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginVertical: 14 }}>
+              <View style={{ flex: 1 }}>
+                <Text style={{ opacity: .5 }}>Из</Text>
+                <Text style={{ fontSize: 16, fontWeight: 500 }}>{delivery.from_address}</Text>
+              </View>
+              
+              <View style={{ flex: 1 }}>
+                <Text style={{ opacity: .5 }}>До</Text>
+                <Text style={{ fontSize: 16, fontWeight: 500 }}>{delivery.to_address}</Text>
+              </View>
+            </View>
+
+            <Pressable style={styles.productbutton} onPress={handleOpenMaps}>
+            <Link
                 href={{
                   pathname: '/products/[id]',
                   params: { id: delivery.product_id.toString() },
                 }}>
-                Товар
+                <Text style={{ fontSize: 16, color: "black" }}>Просмотреть товар</Text>
               </Link>
-            </Text>
-            <Text style={styles.detailsText}>Старт: {delivery.from_address}</Text>
-            <Text style={styles.detailsText}>До: {delivery.to_address}</Text>
-            <Text style={styles.detailsText}>Дата: {new Date(delivery.date["$date"]).toLocaleString()}</Text>
+            </Pressable>
 
             <Pressable style={styles.button} onPress={handleOpenMaps}>
-              <Text style={{ fontSize: 16 }}><MaterialCommunityIcons name="map-marker-radius" size={16} color="black" /> Маршрут</Text>
+              <Text style={{ fontSize: 16, color: "white" }}><MaterialCommunityIcons name="map-marker-radius" size={16} color="white" /> Маршрут</Text>
             </Pressable>
           </View>
         }
-      </View>
+      </ScrollView>
     </>
   )
 }
@@ -138,15 +156,21 @@ const styles = StyleSheet.create({
   divider: {
     backgroundColor: "lightgrey",
     height: 2,
-    marginVertical: 8,
+    marginVertical: 14,
   },
-  button: {
-    backgroundColor: '#ced1cd',
-    alignSelf: "flex-end",
+  productbutton: {
+    borderWidth: 1,
+    borderColor: '#8EBB8E',
+    alignItems: "center",
     padding: 10,
     marginTop: 10,
     borderRadius: 12,
-    borderColor: "#363636",
-    borderWidth: 2,
+  },
+  button: {
+    backgroundColor: '#8EBB8E',
+    alignItems: "center",
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 12,
   },
 })
