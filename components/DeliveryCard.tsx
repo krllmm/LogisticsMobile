@@ -2,10 +2,9 @@ import { Entypo, Feather } from "@expo/vector-icons"
 import { Link } from "expo-router"
 import React from "react"
 import { useState } from "react"
-import { View, Text, StyleSheet, Pressable, Linking, Platform, ScrollView } from "react-native"
+import { View, Text, StyleSheet, Pressable, Linking, Platform } from "react-native"
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import DateDivider from "./DateDivider"
 import { format } from 'date-fns';
 
 
@@ -63,7 +62,7 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
 
   return (
     <>
-      <ScrollView style={styles.container} key={delivery.id}>
+      <View style={styles.container} key={delivery.id}>
 
         <Animated.View
           entering={FadeInDown.duration((delivery.id + 1) * 250)}
@@ -91,10 +90,12 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
               </View>
             </View>
 
-            <Text style={{ fontSize: 16, marginVertical: 10 }}>
+            <View style={{ marginVertical: 10, display: "flex", flexDirection: "row", alignItems: "center" }}>
               <Feather name="clock" size={16} color="black" style={{ marginRight: 6 }}/> 
-              Ожидается: {format(new Date(delivery.date["$date"]), 'dd.MM.yyyy HH:mm')}
-            </Text>
+              <Text style={{ fontSize: 16, marginLeft: 2 }}>
+                Ожидается: {format(new Date(delivery.date["$date"]), 'dd.MM.yyyy HH:mm')}
+              </Text>
+            </View>
 
             <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginVertical: 14 }}>
               <View style={{ flex: 1 }}>
@@ -123,7 +124,7 @@ export const DeliveryCard = ({ delivery }: DeliveryCardProps) => {
             </Pressable>
           </View>
         }
-      </ScrollView>
+      </View>
     </>
   )
 }

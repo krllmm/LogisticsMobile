@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, View, Text, StyleSheet, Pressable } from "react-native";
+import { ActivityIndicator, View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { Header } from "@/components/Header";
 import React from "react";
 import { authService } from "@/services/api/endpoints/auth";
@@ -71,13 +71,13 @@ export default function Index() {
                 <Text style={{ ...styles.emptyText, color: "black", marginTop: 12, textDecorationLine: "underline" }}>Попробовать еще раз</Text>
               </Pressable>
             </View>
-            : <View>
+            : <ScrollView>
               {
                 deliveries.map((d, index) => (
                   <DeliveryCard delivery={d} key={index} />
                 ))
               }
-            </View>
+            </ScrollView>
 
 
       }
