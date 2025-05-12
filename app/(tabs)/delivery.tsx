@@ -7,9 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeliveryCard } from "@/components/DeliveryCard";
 import ErrorScreen from "@/components/ErrorScreen";
 import DateDivider from "@/components/DateDivider";
+import { itemService } from "@/services/api/endpoints/item";
 
 interface Deliveries {
-  id: number,
+  id: string,
   from: string,
   from_address: string,
   to: string,
@@ -48,6 +49,16 @@ export default function Index() {
     getData()
   }, [])
 
+  const handleCloseDelivery = async (id: string) => {
+    const login: string = await AsyncStorage.getItem('user_login') || "";
+    console.log(id, login)
+    
+    await itemService.closeDelivery({ deliveryId: id, driverLogin: login})
+    .then(res => console.log(res))
+    .catch()
+    .finally(() => getData())
+  }
+
   return (
     <>
       <Header title="Перевозки" backIcon={false} />
@@ -63,7 +74,6 @@ export default function Index() {
           ?
           <ActivityIndicator size={64} color="#000" style={{ flex: 1 }} />
           :
-
           (deliveries.length == 0) && !apiError ?
             <View style={styles.emptyContainer}>
               <Text style={styles.emptyText}>Перевозки пока не назначены</Text>
@@ -74,7 +84,7 @@ export default function Index() {
             : <ScrollView>
               {
                 deliveries.map((d, index) => (
-                  <DeliveryCard delivery={d} key={index} />
+                  <DeliveryCard delivery={d} key={index} closeDelivery={handleCloseDelivery}/>
                 ))
               }
             </ScrollView>
