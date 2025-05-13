@@ -17,5 +17,7 @@
 
 ## 🖼️ Скриншоты
 
-![Login Screen](assets/screenshots/login.png)
-![Delivery page](assets/screenshots/delivery.png)
+<p align="center">
+  <img src="assets/screenshots/login.png" alt="Login Screen" width="200"/>
+  <img src="assets/screenshots/delivery.png" alt="Delivery Page" width="200"/>
+</p>
