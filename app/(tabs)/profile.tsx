@@ -52,7 +52,7 @@ export default function Index() {
 
   return (
     <>
-      <Header title="Профиль" backIcon={false} settingsIcon={true}/>
+      <Header title="Профиль" backIcon={false} settingsIcon={false}/>
       {
         (apiError != "") && !loading ?
           <ErrorScreen apiError={apiError} getData={getData}/>

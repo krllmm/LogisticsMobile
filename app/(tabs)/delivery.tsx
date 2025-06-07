@@ -8,6 +8,7 @@ import { DeliveryCard } from "@/components/DeliveryCard";
 import ErrorScreen from "@/components/ErrorScreen";
 import DateDivider from "@/components/DateDivider";
 import { itemService } from "@/services/api/endpoints/item";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface Deliveries {
   id: string,
@@ -17,7 +18,7 @@ interface Deliveries {
   to_address: string,
   amount: number,
   product_id: number,
-  // date: string,
+  date: string,
 }
 
 export default function Index() {
@@ -87,6 +88,9 @@ export default function Index() {
                   <DeliveryCard delivery={d} key={index} closeDelivery={handleCloseDelivery}/>
                 ))
               }
+              <Pressable onPress={() => getData()} style={{ alignItems: "center", marginTop: 12 }}>
+              <Ionicons name="reload" size={36} color="black" />
+              </Pressable>
             </ScrollView>
 
 

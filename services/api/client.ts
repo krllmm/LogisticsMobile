@@ -1,7 +1,7 @@
-import { API_CONFIG_WEB, API_CONFIG_EXPO } from './config';
+import { API_CONFIG } from './config';
 import { Platform } from 'react-native';
 
-export const API_CONFIG = Platform.OS === 'web' ? API_CONFIG_WEB : API_CONFIG_EXPO;
+// export const API_CONFIG = Platform.OS === 'web' ? API_CONFIG_WEB : API_CONFIG_EXPO;
 
 export const apiClient = {
   async get(endpoint: string, params: any){

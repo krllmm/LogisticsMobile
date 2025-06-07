@@ -42,6 +42,7 @@ export const DeliveryCard = ({ delivery, closeDelivery }: DeliveryCardProps) => 
 
   useEffect(() => {
     const time = new Date(delivery.date["$date"])
+    console.log(delivery.date)
     const checkTime = () => {
       const now = new Date();
       const unlockTime = new Date(time.getTime() + 60 * 60 * 1000);
@@ -117,7 +118,11 @@ export const DeliveryCard = ({ delivery, closeDelivery }: DeliveryCardProps) => 
             <View style={{ marginVertical: 10, display: "flex", flexDirection: "row", alignItems: "center" }}>
               <Feather name="clock" size={16} color="black" style={{ marginRight: 6 }} />
               <Text style={{ fontSize: 16, marginLeft: 2 }}>
-                Ожидается: {format(new Date(delivery.date["$date"]), 'dd.MM.yyyy HH:mm')}
+                Ожидается: {
+                format(new Date(delivery.date["$date"]), 'dd.MM.yyyy HH:mm')
+                // delivery.date
+                // new Date(delivery.date)
+                }
               </Text>
             </View>
 
